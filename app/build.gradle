@@ -12,7 +12,7 @@ android {
         targetSdkVersion 21
 
         versionCode 1
-        versionName "1.0.0"
+        versionName "alpha-1.0.0"
 
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
@@ -35,6 +35,18 @@ android {
             buildConfigField 'String', 'SECURE_SALT', "\"" + KIOSK_SECURE_SALT + "\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    lintOptions{
+        abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "Showcase-${variant.versionName}.apk")
         }
     }
 }

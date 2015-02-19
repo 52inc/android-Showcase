@@ -4,12 +4,14 @@ import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.r0adkll.postoffice.PostOffice;
 import com.r0adkll.postoffice.model.Design;
 import com.r0adkll.postoffice.model.Stamp;
 
 import com.ftinc.showcase.utils.CrashlyticsTree;
 import dagger.ObjectGraph;
+import io.fabric.sdk.android.Fabric;
 import ollie.Ollie;
 import timber.log.Timber;
 
@@ -18,7 +20,7 @@ import timber.log.Timber;
  */
 public class ShowcaseApp extends Application {
 
-    public static final String DB_NAME = "Kiosk.db";
+    public static final String DB_NAME = "Showcase.db";
     public static final int DB_VERSION = 1;
 
     private ObjectGraph objectGraph;
@@ -28,6 +30,7 @@ public class ShowcaseApp extends Application {
 
         if(BuildConfig.DEBUG){
             Timber.plant(new Timber.DebugTree());
+            Timber.plant(new CrashlyticsTree(this));
         }else{
             Timber.plant(new CrashlyticsTree(this));
         }
@@ -81,6 +84,7 @@ public class ShowcaseApp extends Application {
      * Get a reference to the Application
      *
      * @param ctx       the context
+     *
      * @return          the ChipperApp reference
      */
     public static ShowcaseApp get(Context ctx){
