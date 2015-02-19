@@ -5,7 +5,7 @@
 
 
 
-_Gabe please add copy here for short description, essentially the same thing that will be posted to the store_
+Showcase is the perfect tool for demoing your work at tech events and conferences. Select the videos you'd like to show off, set a passcode, and you're ready to go—your playlist will loop until you're finished. Bonus: If you plug your phone or tablet in, don't sweat about leaving it unattended; now you can add a siren that'll alert you if some felon tries to run off with your device.
 
 <a href="https://play.google.com/store/apps/details?id=com.ftinc.showcase">
   <img alt="Get it on Google Play"
