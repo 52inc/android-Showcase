@@ -4,7 +4,13 @@
 [![API](https://img.shields.io/badge/API-19%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=19)  
 
 
+
 _Gabe please add copy here for short description, essentially the same thing that will be posted to the store_
+
+<a href="https://play.google.com/store/apps/details?id=com.ftinc.showcase">
+  <img alt="Get it on Google Play"
+       src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
+</a>
 
 ## License
 
