@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 52apps 2014. All rights reserved.
+  -->
+
+<resources>
+
+    <declare-styleable name="EmptyView">
+        <attr name="ev_accentColor" format="reference|color" />
+        <attr name="ev_emptyMessage" format="reference|string" />
+        <attr name="ev_emptyIcon" format="reference" />
+    </declare-styleable>
+
+</resources>

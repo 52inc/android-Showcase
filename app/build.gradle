@@ -1,0 +1,73 @@
+apply plugin: 'android'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
+
+    defaultConfig {
+        applicationId 'com.ftinc.showcase'
+
+        minSdkVersion 19
+        targetSdkVersion 21
+
+        versionCode 1
+        versionName "1.0.0"
+
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+
+        debug{
+            buildConfigField 'String', 'SECURE_KEY', "\"" + KIOSK_SECURE_KEY + "\""
+            buildConfigField 'String', 'SECURE_SALT', "\"" + KIOSK_SECURE_SALT + "\""
+        }
+
+        release {
+            buildConfigField 'String', 'SECURE_KEY', "\"" + KIOSK_SECURE_KEY + "\""
+            buildConfigField 'String', 'SECURE_SALT', "\"" + KIOSK_SECURE_SALT + "\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:support-v4:21.0.+'
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.android.support:cardview-v7:21.0.+'
+
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.squareup:otto:1.3.5'
+    compile 'com.jakewharton.timber:timber:2.2.+'
+    compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'com.nispok:snackbar:2.9.0'
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
+    compile 'io.reactivex:rxjava:1.0.6'
+
+    compile 'com.michaelpardo:ollie:0.3.1'
+    provided 'com.michaelpardo:ollie-compiler:0.3.1'
+
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    provided 'com.squareup.dagger:dagger-compiler:1.2.2'
+
+    compile 'com.r0adkll:deadskunk:1.+'
+    compile 'com.r0adkll:slidableactivity:2.0.1'
+    compile 'com.r0adkll:postoffice:1.+'
+
+    compile 'co.52inc:attributr:1.0.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.1@aar') {
+        transitive = true;
+    }
+
+
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">@color/indigo_500</color>
+    <color name="primaryDark">@color/indigo_700</color>
+    <color name="primaryLight">@color/indigo_300</color>
+    <color name="accent">@color/amber_500</color>
+
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#727272</color>
+    <color name="divider">#B6B6B6</color>
+
+	<color name="black26">#42000000</color>
+
+    <color name="video_item_title">#333</color>
+    <color name="video_item_description">#999</color>
+
+    <color name="empty">#ccc</color>
+
+    <color name="fab">@color/accent</color>
+    <color name="fab_pressed">@color/amber_700</color>
+
+	<color name="black15">#26000000</color>
+	<color name="black25">#3f000000</color>
+	<color name="white65">#a5FFFFFF</color>
+	<color name="black65">#a5000000</color>
+	<color name="white26">#42FFFFFF</color>
+	<color name="white15">#26FFFFFF</color>
+	<color name="black80">#cc000000</color>
+	<color name="black90">#e5000000</color>
+    <color name="empty_layout_default">#C1C1C1</color>
+
+</resources>

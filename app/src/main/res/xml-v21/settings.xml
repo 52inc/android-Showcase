@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="General">
+
+        <CheckBoxPreference
+            android:key="pref_video_constraints"
+            android:title="@string/pref_video_constraints_title"
+            android:summaryOn="@string/pref_video_constraints_summary_on"
+            android:summaryOff="@string/pref_video_constraints_summary_off"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="pref_video_audio"
+            android:title="@string/pref_video_audio_title"
+            android:summaryOn="@string/pref_video_audio_summary_on"
+            android:summaryOff="@string/pref_video_audio_summary_off"
+            android:defaultValue="false"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Security">
+
+        <Preference
+            android:key="pref_video_lock"
+            android:title="@string/pref_video_lock_title"
+            android:summary="Pattern"
+            />
+
+        <SwitchPreference
+            android:key="pref_lock_timeout"
+            android:title="@string/pref_lock_timeout_title"
+            android:summary="@string/pref_lock_timeout_summary"
+            android:defaultValue="true"
+            />
+
+        <Preference
+            android:key="pref_lock_gesture"
+            android:title="@string/pref_lock_gesture_title"
+            android:summary="@string/pref_lock_gesture_summary"
+            android:enabled="false"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_alarm"
+        android:title="Alarm">
+
+        <SwitchPreference
+            android:key="pref_siren"
+            android:title="@string/pref_siren_title"
+            android:summary="@string/pref_siren_summary"
+            android:defaultValue="true"
+            android:order="1"
+            />
+
+        <Preference
+            android:key="pref_siren_file"
+            android:title="@string/pref_siren_file_title"
+            android:summary="@string/pref_siren_file_summary"
+            android:dependency="pref_siren"
+            android:order="2"
+            />
+
+        <EditTextPreference
+            android:key="pref_siren_message"
+            android:title="@string/pref_siren_message_title"
+            android:summary="@string/pref_siren_message_summary"
+            android:dependency="pref_siren"
+            android:order="10"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About">
+
+        <Preference
+            android:key="pref_version"
+            android:title="@string/pref_version_title"
+            android:summary="1.0.0"
+            android:selectable="false"
+            />
+
+        <Preference
+            android:key="pref_licenses"
+            android:title="@string/pref_licenses_title"
+            android:summary="@string/pref_licenses_summary"
+            />
+
+        <Preference
+            android:key="pref_author"
+            android:title="@string/pref_author_title"
+            android:summary="@string/pref_author_summary"
+            />
+
+        <Preference
+            android:key="pref_contact"
+            android:title="@string/pref_contact_title"
+            android:summary="@string/pref_contact_summary"
+            />
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
