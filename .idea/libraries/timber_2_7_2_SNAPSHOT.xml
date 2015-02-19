@@ -4,6 +4,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.timber/timber/2.7.2-SNAPSHOT/1ad454342a066d5f338b36f24b89f272ba60ec3a/timber-2.7.2-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.timber/timber/2.7.2-SNAPSHOT/556fa2d6b70ab584936e577ef7a8908428e26bf1/timber-2.7.2-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

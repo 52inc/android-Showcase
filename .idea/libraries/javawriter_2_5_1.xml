@@ -4,6 +4,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.1/54c87b3d91238e5b58e1a436d4916eee680ec959/javawriter-2.5.1.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.1/784d59fca6844d1610ccd725288e7234d86d73b6/javawriter-2.5.1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
