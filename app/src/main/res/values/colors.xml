@@ -30,4 +30,7 @@
 	<color name="black90">#e5000000</color>
     <color name="empty_layout_default">#C1C1C1</color>
 
+    <color name="lock_success">@color/green_500</color>
+    <color name="lock_failure">@color/red_600</color>
+
 </resources>

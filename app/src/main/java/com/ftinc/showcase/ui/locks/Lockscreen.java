@@ -16,20 +16,66 @@ import com.ftinc.showcase.R;
  */
 public abstract class Lockscreen {
 
+    /**
+     * The Lockscreen type ENUM
+     */
+    public enum Type{
+        NONE,
+        PIN,
+        PATTERN,
+        PASSWORD;
+
+        public static Type from(int ordinal){
+            return Type.values()[ordinal];
+        }
+
+        /**
+         * Create the lockscreen for this given type
+         * @return      the lockscreen implementation for this type
+         */
+        public Lockscreen create(){
+            switch (this){
+                case PIN:
+                    return new PinLockscreen();
+                case PATTERN:
+                    return null;
+                case PASSWORD:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+
+        /**
+         * Get this lockscreen's storage key
+         */
+        public String getKey(){
+            return String.format("lockscreen_key_%s", toString());
+        }
+    }
+
+    /***********************************************************************************************
+     *
+     * Constants
+     *
+     */
+
     public static final int MATCH = 0;
     public static final int MISMATCH = 1;
     public static final int SETUP = 2;
 
-    public static final String TYPE_NONE = "none";
-    public static final String TYPE_PIN = "pin";
-    public static final String TYPE_PATTERN = "pattern";
-    public static final String TYPE_PASSCODE = "password";
-    public static final String TYPE_CUSTOM_GESTURE = "custom gesture";
+    /***********************************************************************************************
+     *
+     * Variables
+     *
+     */
 
     /**
      * The application context reference
      */
     private Context mContext;
+
+    private boolean mIsSetup = false;
 
     /**
      * The input listener that the overriding class calls to
@@ -37,6 +83,33 @@ public abstract class Lockscreen {
      * in the secure store
      */
     private OnCheckInputListener mInputListener;
+
+    /**
+     * Default Constructor
+     */
+    public Lockscreen(){}
+
+    /***********************************************************************************************
+     *
+     * Helper Methods
+     *
+     */
+
+    /**
+     * Return whether or not this lockscreen is being setup or not
+     * @return      true if in setup mode
+     */
+    public boolean isSetup(){
+        return mIsSetup;
+    }
+
+    /**
+     * Set whether or not this lockscreen is in setup mode
+     * @param val
+     */
+    public void setIsSetup(boolean val){
+        mIsSetup = val;
+    }
 
     /**
      * Set this lockscreens context reference
@@ -64,11 +137,17 @@ public abstract class Lockscreen {
         View layout = onCreateView(LayoutInflater.from(mContext), container);
 
         // Modify the background to transparent black, possibly with blur filter
-        layout.setBackgroundColor(getContext().getResources().getColor(R.color.black80));
+        if(!mIsSetup) layout.setBackgroundColor(getContext().getResources().getColor(R.color.black80));
 
         // Return the modified layout
         return layout;
     }
+
+    /***********************************************************************************************
+     *
+     * Protected Methods
+     *
+     */
 
     /**
      * Get the reference to the context
@@ -91,6 +170,24 @@ public abstract class Lockscreen {
     }
 
 
+    /**
+     * Start any special animation to add lockscreen components for pizazz
+     * @param duration      the duration of the animation allowed
+     */
+    public void onAnimateIn(long duration){}
+
+    /**
+     * Start any special animation to remove the lockscreen components for pizzaz
+     *
+     * @param duration      the duration of the animation allowed
+     */
+    public void onAnimateOut(long duration){}
+
+    /***********************************************************************************************
+     *
+     * Abstract Methods
+     *
+     */
 
     /**
      * Create/Inflate the view/ui for this lockscreen and return it to be overlayed on the
@@ -117,19 +214,11 @@ public abstract class Lockscreen {
      */
     public abstract void reset(String message);
 
-    /**
-     * Start any special animation to add lockscreen components for pizazz
-     * @param duration      the duration of the animation allowed
-     */
-    public void onAnimateIn(long duration){}
-
-    /**
-     * Start any special animation to remove the lockscreen components for pizzaz
+    /***********************************************************************************************
      *
-     * @param duration      the duration of the animation allowed
+     * Inner Listeners and Methods
+     *
      */
-    public void onAnimateOut(long duration){}
-
 
     public static interface OnCheckInputListener{
         public int checkInput(byte[] input);

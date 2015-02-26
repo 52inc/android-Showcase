@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.listeners.ActionClickListener;
+import com.r0adkll.deadskunk.preferences.IntPreference;
 import com.r0adkll.deadskunk.preferences.StringPreference;
 import com.r0adkll.postoffice.PostOffice;
 
@@ -32,7 +33,7 @@ import timber.log.Timber;
 public class HomePresenterImpl implements HomePresenter {
 
     private HomeView mView;
-    private StringPreference mVideoLockPreference;
+    private IntPreference mVideoLockPreference;
 
     private Snackbar mSnackbar;
     private boolean mDidUndo = false;
@@ -41,7 +42,7 @@ public class HomePresenterImpl implements HomePresenter {
      * Constructor
      */
     public HomePresenterImpl(HomeView view,
-                             StringPreference vidLockPref){
+                             IntPreference vidLockPref){
         mView = view;
         mVideoLockPreference = vidLockPref;
     }
@@ -127,10 +128,12 @@ public class HomePresenterImpl implements HomePresenter {
     @Override
     public void onVideoSelected(Video video) {
         if(mVideoLockPreference.isSet()){
+
             mView.getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             Intent service = new Intent(mView.getActivity(), KioskService.class);
             service.putExtra(KioskService.EXTRA_CONTENT_PATH, video.file);
             mView.getActivity().startService(service);
+
         }else{
             PostOffice.newAlertMail(mView.getActivity(),
                     getString(R.string.no_security_title),

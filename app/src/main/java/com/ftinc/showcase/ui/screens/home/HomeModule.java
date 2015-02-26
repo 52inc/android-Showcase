@@ -1,5 +1,6 @@
 package com.ftinc.showcase.ui.screens.home;
 
+import com.r0adkll.deadskunk.preferences.IntPreference;
 import com.r0adkll.deadskunk.preferences.StringPreference;
 
 import javax.inject.Singleton;
@@ -34,7 +35,7 @@ public class HomeModule {
 
     @Provides @Singleton
     HomePresenter providePresenter(HomeView view,
-                                   @VideoLock StringPreference vidLockPref){
+                                   @VideoLock IntPreference vidLockPref){
         return new HomePresenterImpl(view, vidLockPref);
     }
 

@@ -1,5 +1,6 @@
 package com.ftinc.showcase.ui.screens.setup;
 
+import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ftinc.showcase.ShowcaseApp;
+import com.ftinc.showcase.ui.model.BaseActivity;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.r0adkll.deadskunk.utils.SecurePreferences;
 
 import javax.inject.Inject;
@@ -27,7 +31,7 @@ import com.ftinc.showcase.ui.locks.PinLockscreen;
 /**
  * Created by r0adkll on 10/5/14.
  */
-public class LockscreenSetupActivity extends ActionBarActivity {
+public class LockscreenSetupActivity extends BaseActivity implements LockscreenSetupView{
 
     /***********************************************************************************************
      *
@@ -43,15 +47,23 @@ public class LockscreenSetupActivity extends ActionBarActivity {
      *
      */
 
-    @InjectView(R.id.container)     FrameLayout mContainer;
+    @InjectView(R.id.container)
+    FrameLayout mContainer;
 
     @Inject
     SecurePreferences mSecPrefs;
 
-    private String mType = "pin";
-    private Lockscreen mLockscreen;
+    @Inject
+    LockscreenSetupPresenter mPresenter;
 
+    private Lockscreen mLockscreen;
     private String mInput;
+
+    /***********************************************************************************************
+     *
+     * Lifecycle Methods
+     *
+     */
 
     /**
      * Called to create Activity
@@ -66,28 +78,7 @@ public class LockscreenSetupActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Load extra
-        if(getIntent() != null){
-            mType = getIntent().getStringExtra(EXTRA_LOCKSCREEN_TYPE);
-        }
-
-        // Exit if activity wasn't given a type
-        if(mType == null)
-            finish();
-
-        // Now based on the type setup the lockscreen
-        mLockscreen = createLockscreen(mType);
-        if(mLockscreen != null){
-            mLockscreen.setContext(this);
-            mLockscreen.setOnCheckInputListener(mInputCheckListener);
-
-            View layout = mLockscreen.createView(mContainer);
-            layout.setBackground(null);
-            if(layout instanceof ViewGroup) tintTextViews((ViewGroup) layout);
-            mContainer.addView(layout);
-            mLockscreen.onCreated();
-            mLockscreen.reset("Please enter your code.");
-        }
+        mPresenter.parseExtras(savedInstanceState);
 
     }
 
@@ -110,25 +101,9 @@ public class LockscreenSetupActivity extends ActionBarActivity {
     }
 
     /**
-     * Create the lockscreen based on the type
-     *
-     * @param type      the lockscreen type
-     * @return          the created lockscreen
+     * TODO: Potentially move this to the {@link com.ftinc.showcase.ui.locks.Lockscreen} class
+     * @param parent
      */
-    private Lockscreen createLockscreen(String type){
-        switch (type){
-            case "pin":
-                return new PinLockscreen(true);
-            case "pattern":
-                break;
-            case "password":
-                break;
-            case "gesture":
-                break;
-        }
-        return null;
-    }
-
     private void tintTextViews(ViewGroup parent){
         int color = getResources().getColor(R.color.textPrimary);
         int N = parent.getChildCount();
@@ -177,13 +152,14 @@ public class LockscreenSetupActivity extends ActionBarActivity {
                 mLockscreen.reset(getString(R.string.lock_setup_reset_message));
             }else{
                 if(mInput.equals(encoded)){
+
+                    // FIXME: Why the hell did I implement this again???
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            storeCode(mType, encoded);
+//                            storeCode(mType, encoded);
                         }
                     }, 500);
-//                    storeCode(mType, encoded);
                     return Lockscreen.MATCH;
                 }
             }
@@ -192,4 +168,77 @@ public class LockscreenSetupActivity extends ActionBarActivity {
         }
     };
 
+
+
+
+    /***********************************************************************************************
+     *
+     * View Methods
+     *
+     */
+
+    @Override
+    public void setupUI(Lockscreen lockscreen) {
+
+        // Now based on the type setup the lockscreen
+        mLockscreen = lockscreen;
+        if(mLockscreen != null){
+            // Put the lockscreen in setup mode
+            mLockscreen.setIsSetup(true);
+
+            // Initialize Lockscreen
+            mLockscreen.setContext(this);
+            mLockscreen.setOnCheckInputListener(mInputCheckListener);
+
+            // Generate View
+            View layout = mLockscreen.createView(mContainer);
+            layout.setBackground(null);
+            if(layout instanceof ViewGroup) tintTextViews((ViewGroup) layout);
+            mContainer.addView(layout);
+            mLockscreen.onCreated();
+            mLockscreen.reset("Please enter your code.");
+        }
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public void showSnackBar(String text) {
+        Snackbar.with(this)
+                .text(text)
+                .swipeToDismiss(true)
+                .type(SnackbarType.MULTI_LINE)
+                .show(this);
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void closeKeyboard() {
+
+    }
+
+    /***********************************************************************************************
+     *
+     * Base Methods
+     *
+     */
+
+    @Override
+    protected Object[] getModules() {
+        return new Object[]{
+            new LockscreenSetupModule(this)
+        };
+    }
 }

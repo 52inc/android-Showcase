@@ -40,24 +40,16 @@ public class PinLockscreen extends Lockscreen {
             R.id.key_8,R.id.key_9,R.id.key_0})
     List<TextView> mKeys;
 
-    private boolean mIsSetup = false;
-
     /**
      * Constructor
      */
-    public PinLockscreen() {
-
-    }
-
-    public PinLockscreen(boolean isSetup){
-        mIsSetup = isSetup;
-    }
+    public PinLockscreen() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container) {
         // FIXME: This is necessary because ?attr/selectableBackgroundBorderless causes issues
         // FIXME: in the WindowManager.
-        View layout = inflater.inflate(mIsSetup ? R.layout.setup_lockscreen_pin :
+        View layout = inflater.inflate(isSetup() ? R.layout.setup_lockscreen_pin :
                 R.layout.lockscreen_pin, container, false);
         ButterKnife.inject(this, layout);
         return layout;
@@ -86,14 +78,14 @@ public class PinLockscreen extends Lockscreen {
             @SuppressLint("NewApi")
             @Override
             public void afterTextChanged(Editable s) {
-                int color = getContext().getResources().getColor(mIsSetup ? R.color.textPrimary : R.color.white);
+                int color = getContext().getResources().getColor(isSetup() ? R.color.textPrimary : R.color.white);
 
                 if(s.length() == 4){
                     int result = checkInput(s.toString().getBytes());
                     if(result == Lockscreen.MATCH){
 
                         // Turn bar and backspace green
-                        int successColor = getContext().getResources().getColor(android.R.color.holo_green_light);
+                        int successColor = getContext().getResources().getColor(R.color.lock_success);
                         mBackspace.setColorFilter(successColor, PorterDuff.Mode.SRC_IN);
                         mSeperator.setBackgroundColor(successColor);
                         mPasswordInputField.setTextColor(successColor);
@@ -101,7 +93,7 @@ public class PinLockscreen extends Lockscreen {
 
                     }else if(result == Lockscreen.MISMATCH){
 
-                        int errorColor = getContext().getResources().getColor(android.R.color.holo_red_light);
+                        int errorColor = getContext().getResources().getColor(R.color.lock_failure);
                         mBackspace.setColorFilter(errorColor, PorterDuff.Mode.SRC_IN);
                         mSeperator.setBackgroundColor(errorColor);
                         mPasswordInputField.setTextColor(errorColor);
@@ -203,7 +195,7 @@ public class PinLockscreen extends Lockscreen {
 
         @Override
         public void apply(final TextView view, int index) {
-            final int color = view.getResources().getColor(android.R.color.holo_green_light);
+            final int color = view.getResources().getColor(R.color.lock_success);
             final int normalColor = view.getCurrentTextColor();
             final int mod = (mKeys.size() - index - 1) % 3;
             view.animate()
@@ -226,7 +218,7 @@ public class PinLockscreen extends Lockscreen {
 
         @Override
         public void apply(final TextView view, int index) {
-            final int color = view.getResources().getColor(android.R.color.holo_red_light);
+            final int color = view.getResources().getColor(R.color.lock_failure);
             final int normalColor = view.getCurrentTextColor();
             final int mod = (mKeys.size() - index - 1) % 3;
             view.animate()
@@ -249,7 +241,7 @@ public class PinLockscreen extends Lockscreen {
 
         @Override
         public void apply(final TextView view, int index) {
-            final int color = view.getResources().getColor(mIsSetup ? R.color.textPrimary : R.color.white);
+            final int color = view.getResources().getColor(isSetup() ? R.color.textPrimary : R.color.white);
             final int normalColor = view.getCurrentTextColor();
             final int mod = (mKeys.size() - index - 1) % 3;
             view.animate()

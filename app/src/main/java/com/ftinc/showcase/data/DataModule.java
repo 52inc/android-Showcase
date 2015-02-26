@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.ftinc.showcase.BuildConfig;
+import com.ftinc.showcase.ui.locks.Lockscreen;
 import com.r0adkll.deadskunk.preferences.BooleanPreference;
+import com.r0adkll.deadskunk.preferences.IntPreference;
 import com.r0adkll.deadskunk.preferences.StringPreference;
 import com.r0adkll.deadskunk.utils.SecurePreferences;
 
@@ -75,8 +77,8 @@ public class DataModule {
     }
 
     @Provides @Singleton @VideoLock
-    StringPreference provideVideoLockPreference(SharedPreferences prefs){
-        return new StringPreference(prefs, PREF_VIDEO_LOCK, "none");
+    IntPreference provideVideoLockPreference(SharedPreferences prefs){
+        return new IntPreference(prefs, PREF_VIDEO_LOCK, Lockscreen.Type.NONE.ordinal());
     }
 
     @Provides @Singleton @VideoAudio
