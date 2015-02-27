@@ -3,9 +3,9 @@ package com.ftinc.showcase.ui.screens.setup;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.ftinc.showcase.ui.locks.Lockscreen;
+import com.ftinc.showcase.ui.locks_old.Lockscreen;
 
-import static com.ftinc.showcase.ui.locks.Lockscreen.Type.*;
+import static com.ftinc.showcase.ui.locks_old.Lockscreen.Type.*;
 
 /**
  * Project: Showcase
@@ -64,7 +64,7 @@ public class LockscreenSetupPresenterImpl implements LockscreenSetupPresenter {
 
     @Override
     public void saveInstanceState(Bundle out) {
-
+        out.putInt(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, mType.ordinal());
     }
 
     /***********************************************************************************************

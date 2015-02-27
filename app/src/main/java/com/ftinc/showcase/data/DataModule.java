@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.ftinc.showcase.BuildConfig;
-import com.ftinc.showcase.ui.locks.Lockscreen;
+import com.ftinc.showcase.ui.locks_old.Lockscreen;
 import com.r0adkll.deadskunk.preferences.BooleanPreference;
 import com.r0adkll.deadskunk.preferences.IntPreference;
 import com.r0adkll.deadskunk.preferences.StringPreference;

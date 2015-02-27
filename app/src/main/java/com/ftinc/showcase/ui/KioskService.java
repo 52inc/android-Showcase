@@ -49,8 +49,8 @@ import butterknife.ButterKnife;
 import com.ftinc.showcase.BuildConfig;
 import com.ftinc.showcase.R;
 import com.ftinc.showcase.data.model.ImmersiveRecoveryEvent;
-import com.ftinc.showcase.ui.locks.Lockscreen;
-import com.ftinc.showcase.ui.locks.PinLockscreen;
+import com.ftinc.showcase.ui.locks_old.Lockscreen;
+import com.ftinc.showcase.ui.locks_old.PinLockscreen;
 import com.ftinc.showcase.ui.widget.TouchedFrameLayout;
 import com.ftinc.showcase.utils.qualifiers.AlarmSoundPath;
 import com.ftinc.showcase.utils.qualifiers.LockTimeout;
@@ -61,8 +61,7 @@ import com.ftinc.showcase.utils.qualifiers.VideoConstraints;
 import com.ftinc.showcase.utils.qualifiers.VideoLock;
 import timber.log.Timber;
 
-import static com.ftinc.showcase.ui.locks.Lockscreen.*;
-import static com.ftinc.showcase.ui.locks.Lockscreen.Type.PIN;
+import static com.ftinc.showcase.ui.locks_old.Lockscreen.*;
 
 /**
  * Created by drew.heavner on 1/31/14.

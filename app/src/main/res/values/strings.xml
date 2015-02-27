@@ -42,5 +42,7 @@
     <string name="pref_video_audio_summary_off">Video audio is disabled during playback</string>
     <string name="pref_version_title">Version</string>
     <string name="lock_screen_label">Lock setup</string>
+    <string name="pin_lock_setup_title">Create a 4-digit code.</string>
+    <string name="pin_lock_confirmation_title">Now confirm your code.</string>
 
 </resources>

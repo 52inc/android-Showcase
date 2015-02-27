@@ -1,6 +1,6 @@
 package com.ftinc.showcase.ui.screens.setup;
 
-import com.ftinc.showcase.ui.locks.Lockscreen;
+import com.ftinc.showcase.ui.locks_old.Lockscreen;
 import com.ftinc.showcase.ui.model.IBaseView;
 
 /**

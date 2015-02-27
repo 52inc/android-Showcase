@@ -1,4 +1,4 @@
-package com.ftinc.showcase.ui.locks;
+package com.ftinc.showcase.ui.locks_old;
 
 import android.content.Context;
 import android.view.LayoutInflater;

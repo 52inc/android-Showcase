@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.ftinc.showcase.R;
-import com.ftinc.showcase.ui.locks.Lockscreen;
-import com.ftinc.showcase.ui.locks.PinLockscreen;
+import com.ftinc.showcase.ui.locks_old.Lockscreen;
 
 /**
  * Created by r0adkll on 10/5/14.
@@ -100,8 +98,14 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
         }
     }
 
+    /***********************************************************************************************
+     *
+     * Helper Methods
+     *
+     */
+
     /**
-     * TODO: Potentially move this to the {@link com.ftinc.showcase.ui.locks.Lockscreen} class
+     * TODO: Potentially move this to the {@link com.ftinc.showcase.ui.locks_old.Lockscreen} class
      * @param parent
      */
     private void tintTextViews(ViewGroup parent){
@@ -192,8 +196,8 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
 
             // Generate View
             View layout = mLockscreen.createView(mContainer);
-            layout.setBackground(null);
             if(layout instanceof ViewGroup) tintTextViews((ViewGroup) layout);
+
             mContainer.addView(layout);
             mLockscreen.onCreated();
             mLockscreen.reset("Please enter your code.");
