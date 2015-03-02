@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ftinc.showcase.ui.screens.settings.SettingsActivity;
 import com.melnykov.fab.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -245,9 +246,8 @@ public class HomeActivity extends BaseActivity implements HomeView {
                                 }
                             }).start();
 
-                    Intent lockSetup = new Intent(HomeActivity.this, LockscreenSetupActivity.class);
-                    lockSetup.putExtra(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, "pin");
-                    startActivity(lockSetup);
+                    // Launch Settings
+                    mPresenter.openSettings();
                 }
             });
 

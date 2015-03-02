@@ -3,9 +3,8 @@ package com.ftinc.showcase.ui.screens.setup;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.ftinc.showcase.ui.locks_old.Lockscreen;
-
-import static com.ftinc.showcase.ui.locks_old.Lockscreen.Type.*;
+import com.ftinc.showcase.ui.lock.LockType;
+import static com.ftinc.showcase.ui.lock.LockType.*;
 
 /**
  * Project: Showcase
@@ -15,7 +14,7 @@ import static com.ftinc.showcase.ui.locks_old.Lockscreen.Type.*;
 public class LockscreenSetupPresenterImpl implements LockscreenSetupPresenter {
 
     private LockscreenSetupView mView;
-    private Lockscreen.Type mType;
+    private LockType mType;
 
     /**
      * Constructor
@@ -39,7 +38,7 @@ public class LockscreenSetupPresenterImpl implements LockscreenSetupPresenter {
 
             // Parse the lockscreen setup type here
             int typeOrdinal = intent.getIntExtra(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, NONE.ordinal());
-            mType = Lockscreen.Type.from(typeOrdinal);
+            mType = LockType.from(typeOrdinal);
 
         }
 
@@ -47,7 +46,7 @@ public class LockscreenSetupPresenterImpl implements LockscreenSetupPresenter {
 
             // Parse the lockscreen setup type here
             int typeOrdinal = icicle.getInt(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, NONE.ordinal());
-            mType = Lockscreen.Type.from(typeOrdinal);
+            mType = LockType.from(typeOrdinal);
 
         }
 
@@ -58,13 +57,18 @@ public class LockscreenSetupPresenterImpl implements LockscreenSetupPresenter {
         }
 
         // Inflate UI
-        mView.setupUI(mType.create());
+        mView.setupUI(mType.create(mView.getActivity()));
 
     }
 
     @Override
     public void saveInstanceState(Bundle out) {
         out.putInt(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, mType.ordinal());
+    }
+
+    @Override
+    public LockType getType() {
+        return mType;
     }
 
     /***********************************************************************************************

@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ftinc.showcase.R;
 import com.ftinc.showcase.ui.lock.auth.Auth;
 import com.ftinc.showcase.ui.lock.storage.Storage;
 import com.ftinc.showcase.ui.lock.ui.LockUI;
+
+import static com.ftinc.showcase.ui.lock.LockState.*;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,13 +35,14 @@ public class Lockscreen implements LockUI.UICallbacks {
     TextView mTitle;
 
     @InjectView(R.id.content)
-    FrameLayout mContentFrame;
+    RelativeLayout mContentFrame;
 
     /*
      * Upper level components
      */
     private Context mCtx;
     private LayoutInflater mInflater;
+    private LockscreenCallbacks mCallbacks;
 
     /*
      * Interface methods that make the lockscreen work
@@ -47,7 +51,21 @@ public class Lockscreen implements LockUI.UICallbacks {
     private Storage mStorage;
     private Auth mAuthenticator;
 
-    private boolean mIsSetup = false;
+    /*
+     * The type of lockscreen that this is setup to be
+     */
+    private LockType mType;
+
+    /*
+     * The state of the lockscreen
+     */
+    private LockState mState = LockState.LOCKED;
+
+    /*
+     * The staged input data in the setup process before the user input's again
+     * to confirm their setup
+     */
+    private byte[] mStaged;
 
     /**
      * Hidden Internal Constructor
@@ -98,8 +116,16 @@ public class Lockscreen implements LockUI.UICallbacks {
         mContentFrame.addView(lockUi);
 
         // Show the title depending on the mode
-        if(mIsSetup) showSetup();
-        else showTitle();
+        switch (mState){
+            case SETUP:
+                showSetup();
+                break;
+            case CONFIRM:
+                showConfirmation();
+                break;
+            default:
+                showTitle();
+        }
 
         // Return the combined layout
         return layout;
@@ -110,6 +136,23 @@ public class Lockscreen implements LockUI.UICallbacks {
      * Helper Methods
      *
      */
+
+    /**
+     * Start any special animation to add lockscreen components for pizazz
+     * @param duration      the duration of the animation allowed
+     */
+    public void onAnimateIn(long duration){
+        mUi.onAnimateIn(duration);
+    }
+
+    /**
+     * Start any special animation to remove the lockscreen components for pizzaz
+     *
+     * @param duration      the duration of the animation allowed
+     */
+    public void onAnimateOut(long duration){
+        mUi.onAnimateOut(duration);
+    }
 
     /**
      * Show the main display text on the lockscreen
@@ -134,13 +177,28 @@ public class Lockscreen implements LockUI.UICallbacks {
     }
 
     /**
+     * Show the failure text
+     */
+    public void showFailure(){
+        mTitle.setText(mUi.getFailureText());
+    }
+
+    /**
      * Set whether or not this lockscreen is being setup in the
      * {@link com.ftinc.showcase.ui.screens.setup.LockscreenSetupActivity}
-     * @param flag      the setup value
+     * @param state      the setup value
      */
-    public void setIsSetup(boolean flag){
-        mIsSetup = flag;
-        if(mUi != null) mUi.setIsSetup(mIsSetup);
+    public void setState(LockState state){
+        mState = state;
+        if(mUi != null) mUi.setState(state);
+    }
+
+    /**
+     * Set the lockscreen callbacks
+     * @param callbacks
+     */
+    public void setCallbacks(LockscreenCallbacks callbacks){
+        mCallbacks = callbacks;
     }
 
     /***********************************************************************************************
@@ -158,7 +216,76 @@ public class Lockscreen implements LockUI.UICallbacks {
     @Override
     public void onInput(byte[] data) {
 
+        switch (mState){
+            case SETUP:
+                // 1) Stage the data
+                mStaged = data;
 
+                // 2) Proceed state to confirm mode and update the title
+                mState = CONFIRM;
+                showConfirmation();
+
+                // 3) Reset the Lock UI for another round of input
+                mUi.onReset();
+
+                break;
+            case CONFIRM:
+
+                // 1) Valid staged data, use authenticator to verify the data
+                if(mAuthenticator.authenticate(data, mStaged)){
+                    // 2a) Success! Notify UI
+                    mUi.onSuccess();
+
+                    // 3a) Store the input data
+                    mStorage.deposit(data, mType);
+
+                    // 4a)  Notify Listeners of setup completion
+                    if(mCallbacks != null) mCallbacks.onSuccess();
+
+                }else{
+
+                    // 2b) Failure?! Notify UI to show failure and reset itself
+                    mUi.onFailure();
+
+                    // 3b) Show failure text
+                    showFailure();
+
+                    // 4b) Notify callbacks
+                    if(mCallbacks != null) mCallbacks.onFailure();
+
+                }
+
+                break;
+            default:
+
+                // 1) Get data from storage
+                byte[] stored = mStorage.withdraw(mType);
+
+                // 2) Authenticate input against stored
+                if(mAuthenticator.authenticate(data, stored)){
+
+                    // 2a) Show success on UI
+                    mUi.onSuccess();
+
+                    // 3a) Signal listeners of match
+                    if(mCallbacks != null) mCallbacks.onSuccess();
+
+                }else{
+
+                    // 2b) Show failure on UI and have it reset itself
+                    mUi.onFailure();
+
+                    // 3b) Show failure text
+                    showFailure();
+
+                    // 4b) Notify callbacks
+                    if(mCallbacks != null) mCallbacks.onFailure();
+
+                }
+
+
+
+        }
 
     }
 
@@ -180,9 +307,11 @@ public class Lockscreen implements LockUI.UICallbacks {
         /**
          * Constructor
          * @param ctx       the context reference
+         * @param type      the lockscreen type, this is a required parameter
          */
-        public Builder(Context ctx){
+        public Builder(Context ctx, LockType type){
             mLock = new Lockscreen(ctx);
+            mLock.mType = type;
         }
 
         /**
@@ -230,7 +359,7 @@ public class Lockscreen implements LockUI.UICallbacks {
          * @return          self for chaining
          */
         public Builder setup(boolean flag){
-            mLock.setIsSetup(flag);
+            mLock.setState(flag ? LockState.SETUP : LockState.LOCKED);
             return this;
         }
 
@@ -251,13 +380,24 @@ public class Lockscreen implements LockUI.UICallbacks {
 
             // Set the setup flag in the UI so it can appropriate generate itself on the mode
             // TODO: Make this solution prettier
-            mLock.mUi.setIsSetup(mLock.mIsSetup);
+            mLock.mUi.setState(mLock.mState);
             mLock.mUi.setContext(mLock.mCtx);
 
             // Return the compiled lock
             return mLock;
         }
 
+    }
+
+    /***********************************************************************************************
+     *
+     * Callbacks
+     *
+     */
+
+    public static interface LockscreenCallbacks{
+        public void onSuccess();
+        public void onFailure();
     }
 
 }

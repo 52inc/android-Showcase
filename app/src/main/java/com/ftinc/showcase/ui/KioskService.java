@@ -35,6 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ftinc.showcase.ShowcaseApp;
+import com.ftinc.showcase.ui.lock.LockType;
+import com.ftinc.showcase.ui.lock.Lockscreen;
 import com.r0adkll.deadskunk.preferences.BooleanPreference;
 import com.r0adkll.deadskunk.preferences.IntPreference;
 import com.r0adkll.deadskunk.preferences.StringPreference;
@@ -49,8 +51,6 @@ import butterknife.ButterKnife;
 import com.ftinc.showcase.BuildConfig;
 import com.ftinc.showcase.R;
 import com.ftinc.showcase.data.model.ImmersiveRecoveryEvent;
-import com.ftinc.showcase.ui.locks_old.Lockscreen;
-import com.ftinc.showcase.ui.locks_old.PinLockscreen;
 import com.ftinc.showcase.ui.widget.TouchedFrameLayout;
 import com.ftinc.showcase.utils.qualifiers.AlarmSoundPath;
 import com.ftinc.showcase.utils.qualifiers.LockTimeout;
@@ -61,7 +61,7 @@ import com.ftinc.showcase.utils.qualifiers.VideoConstraints;
 import com.ftinc.showcase.utils.qualifiers.VideoLock;
 import timber.log.Timber;
 
-import static com.ftinc.showcase.ui.locks_old.Lockscreen.*;
+import static com.ftinc.showcase.ui.lock.LockType.*;
 
 /**
  * Created by drew.heavner on 1/31/14.
@@ -492,21 +492,8 @@ public class KioskService extends Service implements SurfaceHolder.Callback,
 
         // 1) Determine what lockscreen to show via preferences
         int ordinal = mVideoLock.get();
-        Type type = Type.from(ordinal);
-        switch (type){
-            case PIN:
-                mCurrentLock = new PinLockscreen();
-                break;
-            case PATTERN:
-
-                break;
-            case PASSWORD:
-
-                break;
-            case NONE:
-
-                break;
-        }
+        LockType type = LockType.from(ordinal);
+        mCurrentLock = type.create(this);
 
         // 2) Initialize and show the lockscreen to the user
         initLockscreen(type);
@@ -519,29 +506,24 @@ public class KioskService extends Service implements SurfaceHolder.Callback,
      *
      * @param type      the lockscreen type
      */
-    private void initLockscreen(final Type type){
-        mCurrentLock.setContext(KioskService.this);
-        mCurrentLock.setOnCheckInputListener(new OnCheckInputListener() {
+    private void initLockscreen(final LockType type){
+
+        mCurrentLock.setCallbacks(new Lockscreen.LockscreenCallbacks() {
             @Override
-            public int checkInput(byte[] input) {
-                String rawInput = Base64.encodeToString(input, Base64.DEFAULT);
-                String secureInput = mSecPrefs.getString(type.getKey());
+            public void onSuccess() {
+                unlock();
+            }
 
-                Timber.i("Check Input [%s]:[%s]", rawInput, secureInput);
-
-                if(rawInput.equals(secureInput)){
-                    unlock();
-                    return MATCH;
-                }
-
-                return MISMATCH;
+            @Override
+            public void onFailure() {
+                // Do Nothing
             }
         });
 
         // Initialize and Show the lock
-        mCurrentLockView = mCurrentLock.createView(mLockContent);
+        mCurrentLockView = mCurrentLock.onCreateView(mLockContent);
         mLockContent.addView(mCurrentLockView);
-        mCurrentLock.onCreated();
+        mCurrentLock.onCreate();
         mCurrentLock.onAnimateIn(300);
 
         // Setup the timeout if enabled

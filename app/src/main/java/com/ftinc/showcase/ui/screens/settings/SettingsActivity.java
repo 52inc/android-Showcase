@@ -13,7 +13,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ftinc.showcase.ShowcaseApp;
+import com.ftinc.showcase.data.DataModule;
+import com.ftinc.showcase.ui.lock.LockType;
+import com.ftinc.showcase.utils.qualifiers.VideoLock;
 import com.nispok.snackbar.Snackbar;
+import com.r0adkll.deadskunk.preferences.IntPreference;
 import com.r0adkll.deadskunk.preferences.StringPreference;
 import com.r0adkll.deadskunk.utils.FileUtils;
 import com.r0adkll.deadskunk.utils.IntentUtils;
@@ -44,13 +48,6 @@ public class SettingsActivity extends ActionBarActivity {
      * Constants
      *
      */
-
-    private static final CharSequence[] LOCK_SCREEN_TYPES = new CharSequence[]{
-            "Pin",
-            "Pattern",
-            "Password",
-            "Custom Gesture"
-    };
 
     /***********************************************************************************************
      *
@@ -121,6 +118,9 @@ public class SettingsActivity extends ActionBarActivity {
         @Inject @AlarmSoundName
         StringPreference mAlarmName;
 
+        @Inject @VideoLock
+        IntPreference mVideoLock;
+
         /*******************************************************************************************
          *
          * Lifecycle Methods
@@ -140,8 +140,9 @@ public class SettingsActivity extends ActionBarActivity {
             version.setSummary(BuildConfig.VERSION_NAME);
 
             // Update the saved video lock method
-            Preference videoLock = getPreferenceManager().findPreference("pref_video_lock");
-            videoLock.setSummary(videoLock.getSharedPreferences().getString("pref_video_lock", "None"));
+            Preference videoLock = getPreferenceManager().findPreference(DataModule.PREF_VIDEO_LOCK);
+            LockType mType = LockType.from(mVideoLock.get());
+            videoLock.setSummary(mType.getName());
 
             // Check for a saved siren alarm audio file
             String sirenFilePath = mAlarmPath.get();
@@ -191,22 +192,27 @@ public class SettingsActivity extends ActionBarActivity {
             switch (preference.getKey()){
                 case "pref_video_lock":
 
+                    String[] lockTypes = getResources().getStringArray(R.array.lock_types);
                     PostOffice.newSimpleListMail(getActivity(),
                             "Choose your lock security",
                             Design.MATERIAL_LIGHT,
-                            LOCK_SCREEN_TYPES, new ListStyle.OnItemAcceptedListener<CharSequence>() {
+                            lockTypes, new ListStyle.OnItemAcceptedListener<CharSequence>() {
                                 @Override
                                 public void onItemAccepted(CharSequence charSequence, int i) {
                                     if(i == 0) {
 
-                                        Timber.i("%s: Accepted as lock type, continue to setup.", charSequence);
-                                        String type = charSequence.toString().toLowerCase().replace(" ", "");
-                                        preference.setSummary(charSequence);
-                                        preference.getEditor().putString(preference.getKey(), charSequence.toString()).commit();
+                                        LockType type = LockType.from(i+1);
 
+                                        // Store the selected lock type
+                                        Timber.i("%s: Accepted as lock type, continue to setup.", type.getName());
+                                        preference.setSummary(type.getName());
+                                        mVideoLock.set(i+1);
+
+                                        // Launch Setup activity
                                         Intent lockSetup = new Intent(getActivity(), LockscreenSetupActivity.class);
-                                        lockSetup.putExtra(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, type);
+                                        lockSetup.putExtra(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, type.ordinal());
                                         startActivity(lockSetup);
+
                                     }else{
                                         Snackbar.with(getActivity())
                                                 .text("This feature is currently unavailable")

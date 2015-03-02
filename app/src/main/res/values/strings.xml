@@ -11,7 +11,7 @@
     <string name="siren_delete_title">Clear selected siren</string>
     <string name="siren_delete_summary">Go back to the default alarm sound</string>
     <string name="siren_delete_key">pref_siren_delete</string>
-    <string name="onboarding">Press the floating button below to add a video to the library for playback. Then you\'ll just need to set a passcode and your good to go.</string>
+    <string name="onboarding">Tap the plus button below to add a video for playback. Then, set a passcode for your presentation, and you\'re ready to go.</string>
     <string name="onboarding_title">Welcome to Showcase</string>
     <string name="no_security_msg">Please setup your security in the settings first before continuing</string>
     <string name="no_security_title">No security</string>
@@ -44,5 +44,6 @@
     <string name="lock_screen_label">Lock setup</string>
     <string name="pin_lock_setup_title">Create a 4-digit code.</string>
     <string name="pin_lock_confirmation_title">Now confirm your code.</string>
+    <string name="pin_lock_failure_title">Please try again.</string>
 
 </resources>

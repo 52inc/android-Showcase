@@ -37,12 +37,12 @@
             android:defaultValue="true"
             />
 
-        <Preference
-            android:key="pref_lock_gesture"
-            android:title="@string/pref_lock_gesture_title"
-            android:summary="@string/pref_lock_gesture_summary"
-            android:enabled="false"
-            />
+        <!--<Preference-->
+            <!--android:key="pref_lock_gesture"-->
+            <!--android:title="@string/pref_lock_gesture_title"-->
+            <!--android:summary="@string/pref_lock_gesture_summary"-->
+            <!--android:enabled="false"-->
+            <!--/>-->
 
     </PreferenceCategory>
 

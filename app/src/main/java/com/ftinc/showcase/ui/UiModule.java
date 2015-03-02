@@ -7,6 +7,7 @@ import android.view.WindowManager;
 
 import javax.inject.Singleton;
 
+import com.ftinc.showcase.ui.lock.storage.SecurePrefStorage;
 import com.ftinc.showcase.ui.screens.settings.SettingsActivity;
 import com.ftinc.showcase.ui.screens.setup.LockscreenSetupActivity;
 import dagger.Module;
@@ -19,8 +20,8 @@ import dagger.Provides;
  */
 @Module(
     injects = {
-            LockscreenSetupActivity.class,
-            SettingsActivity.SettingsFragment.class
+        SettingsActivity.SettingsFragment.class,
+        SecurePrefStorage.class
     },
     library = true,
     complete = false

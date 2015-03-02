@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/black65"
+    android:background="@color/black80"
     >
 
     <TextView
@@ -19,11 +19,12 @@
         android:textColor="@color/white65"
         />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title"
+        android:gravity="bottom"
         tools:background="@color/white10" />
 
 </RelativeLayout>

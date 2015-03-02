@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="32dp"
-        android:layout_marginTop="24dp"
-
-        android:text="@string/pin_lock_title"
-        android:textSize="22sp"
-        android:textColor="@color/white65"
-        />
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:background="@color/black65">
 
     <EditText
         android:id="@+id/password_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_above="@+id/seperator"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:gravity="center"
@@ -43,7 +29,6 @@
         android:clickable="false"
         android:cursorVisible="false"
 
-
         android:background="@color/transparent"
         />
 
@@ -57,7 +42,7 @@
         android:layout_alignTop="@+id/password_input_field"
 
         android:src="@drawable/ic_action_backspace"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/default_selector_light"
         />
 
     <View
@@ -65,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/white65"
-        android:layout_above="@+id/keypad"
+        android:layout_below="@+id/password_input_field"
         android:tag="inverse"
 
         android:layout_marginLeft="32dp"
@@ -77,12 +62,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_below="@+id/seperator"
 
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
-
-        android:layout_alignParentBottom="true"
         >
 
         <LinearLayout
@@ -92,19 +76,19 @@
             >
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_1"
                 android:text="1"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_2"
                 android:text="2"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_3"
                 android:text="3"
                 />
@@ -118,19 +102,19 @@
             >
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_4"
                 android:text="4"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_5"
                 android:text="5"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_6"
                 android:text="6"
                 />
@@ -144,19 +128,19 @@
             >
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_7"
                 android:text="7"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_8"
                 android:text="8"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_9"
                 android:text="9"
                 />
@@ -170,19 +154,19 @@
             >
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:text=""
                 android:enabled="false"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:id="@+id/key_0"
                 android:text="0"
                 />
 
             <TextView
-                style="@style/Widget.Kiosk.PinKey"
+                style="@style/Widget.Kiosk.PinKey.Legacy"
                 android:text=""
                 android:enabled="false"
                 />

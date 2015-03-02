@@ -17,4 +17,5 @@ public interface Auth {
      */
     public boolean authenticate(byte[] input, byte[] stored);
 
+
 }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ftinc.showcase.ui.lock.LockState;
+
 /**
  * Project: Showcase
  * Package: com.ftinc.showcase.ui.lock
@@ -23,7 +25,7 @@ public abstract class LockUI {
 
     private Context mCtx;
     private UICallbacks mCallbacks;
-    private boolean mIsSetup = false;
+    private LockState mState;
 
     /***********************************************************************************************
      *
@@ -115,6 +117,14 @@ public abstract class LockUI {
      */
     public abstract CharSequence getConfirmationText();
 
+    /**
+     * Get the text used to prompt the user to re-try their lockscreen method due to a previously
+     * incorrect attempt
+     *
+     * @return      the failure title text
+     */
+    public abstract CharSequence getFailureText();
+
     /***********************************************************************************************
      *
      * Helper Methods
@@ -142,10 +152,10 @@ public abstract class LockUI {
 
     /**
      * Set the Lock UI in setup mode or not
-     * @param flag      the setup flag from the Lockscreen parent
+     * @param state         the setup flag from the Lockscreen parent
      */
-    public void setIsSetup(boolean flag){
-        mIsSetup = flag;
+    public void setState(LockState state){
+        mState = state;
     }
 
     /**
@@ -153,7 +163,7 @@ public abstract class LockUI {
      * @return      true if in setup, false otherwise
      */
     protected boolean isSetup(){
-        return mIsSetup;
+        return mState == LockState.SETUP || mState == LockState.CONFIRM;
     }
 
     /**

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ftinc.showcase.ShowcaseApp;
+import com.ftinc.showcase.ui.lock.LockState;
+import com.ftinc.showcase.ui.lock.Lockscreen;
 import com.ftinc.showcase.ui.model.BaseActivity;
+import com.ftinc.showcase.utils.qualifiers.VideoLock;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
-import com.r0adkll.deadskunk.utils.SecurePreferences;
+import com.r0adkll.deadskunk.preferences.IntPreference;
 
 import javax.inject.Inject;
 
@@ -24,12 +26,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.ftinc.showcase.R;
-import com.ftinc.showcase.ui.locks_old.Lockscreen;
 
 /**
  * Created by r0adkll on 10/5/14.
  */
-public class LockscreenSetupActivity extends BaseActivity implements LockscreenSetupView{
+public class LockscreenSetupActivity extends BaseActivity implements LockscreenSetupView, Lockscreen.LockscreenCallbacks {
 
     /***********************************************************************************************
      *
@@ -38,6 +39,8 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
      */
 
     public static final String EXTRA_LOCKSCREEN_TYPE = "extra_lockscreen_type";
+
+    private static final long SUCCESS_DELAY = 500L;
 
     /***********************************************************************************************
      *
@@ -49,10 +52,10 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
     FrameLayout mContainer;
 
     @Inject
-    SecurePreferences mSecPrefs;
-
-    @Inject
     LockscreenSetupPresenter mPresenter;
+
+    @Inject @VideoLock
+    IntPreference mVideoLock;
 
     private Lockscreen mLockscreen;
     private String mInput;
@@ -71,7 +74,6 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ShowcaseApp.get(this).inject(this);
         setContentView(R.layout.activity_lockscreen_setup);
         ButterKnife.inject(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,7 +107,7 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
      */
 
     /**
-     * TODO: Potentially move this to the {@link com.ftinc.showcase.ui.locks_old.Lockscreen} class
+     * TODO: Potentially move this to the {@link com.ftinc.showcase.ui.lock.Lockscreen} class
      * @param parent
      */
     private void tintTextViews(ViewGroup parent){
@@ -126,53 +128,33 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
         }
     }
 
-    /**
-     * Store this code in the encoded Preferences
+
+    /***********************************************************************************************
      *
-     * @param type          the lockscreen type
-     * @param encodedData   the encoded lockscreen password
+     * Lockscreen Callbacks
+     *
      */
-    private void storeCode(String type, String encodedData){
 
-        // Store the encoded data
-        mSecPrefs.put(type, encodedData);
+    @Override
+    public void onSuccess() {
+        // At this point, we have a succesfully setup the lockscreen to the point of storage, so
+        // we need to indicate this in the system preferences at some point
+        mVideoLock.set(mPresenter.getType().ordinal());
 
-        // Finish this activity
-        finish();
-
+        // Now exit the setup activity after a delay so we can see the success animation
+        // TODO: Evaluate the merit of putting the delay in the Lockscreen mechanism itself
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, SUCCESS_DELAY);
     }
 
-    /**
-     * The Lockscreen's input check listener that reports the data of the lockscreen
-     * input once it has been made in the Lockscreen object, here we will store the
-     * data locally in Base64, then reset the lockscreen and wait for more input
-     */
-    private Lockscreen.OnCheckInputListener mInputCheckListener = new Lockscreen.OnCheckInputListener() {
-        @Override
-        public int checkInput(byte[] input) {
-            final String encoded = Base64.encodeToString(input, Base64.DEFAULT);
-            if(mInput == null){
-                mInput = encoded;
-                mLockscreen.reset(getString(R.string.lock_setup_reset_message));
-            }else{
-                if(mInput.equals(encoded)){
-
-                    // FIXME: Why the hell did I implement this again???
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-//                            storeCode(mType, encoded);
-                        }
-                    }, 500);
-                    return Lockscreen.MATCH;
-                }
-            }
-
-            return Lockscreen.SETUP;
-        }
-    };
-
-
+    @Override
+    public void onFailure() {
+        // Do Nothing
+    }
 
 
     /***********************************************************************************************
@@ -188,19 +170,17 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
         mLockscreen = lockscreen;
         if(mLockscreen != null){
             // Put the lockscreen in setup mode
-            mLockscreen.setIsSetup(true);
+            mLockscreen.setState(LockState.SETUP);
 
             // Initialize Lockscreen
-            mLockscreen.setContext(this);
-            mLockscreen.setOnCheckInputListener(mInputCheckListener);
+            mLockscreen.setCallbacks(this);
 
             // Generate View
-            View layout = mLockscreen.createView(mContainer);
+            View layout = mLockscreen.onCreateView(mContainer);
             if(layout instanceof ViewGroup) tintTextViews((ViewGroup) layout);
 
             mContainer.addView(layout);
-            mLockscreen.onCreated();
-            mLockscreen.reset("Please enter your code.");
+            mLockscreen.onCreate();
         }
     }
 
