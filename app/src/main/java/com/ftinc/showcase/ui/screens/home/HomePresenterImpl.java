@@ -121,7 +121,9 @@ public class HomePresenterImpl implements HomePresenter {
 
     @Override
     public void openSettings() {
+        Timber.i("Opening the Settings screen");
         Intent settings = new Intent(mView.getActivity(), SettingsActivity.class);
+        settings.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mView.getActivity().startActivity(settings);
     }
 

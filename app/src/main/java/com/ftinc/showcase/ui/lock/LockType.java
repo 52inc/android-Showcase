@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ftinc.showcase.ui.lock.auth.BasicAuth;
 import com.ftinc.showcase.ui.lock.storage.SecurePrefStorage;
+import com.ftinc.showcase.ui.lock.ui.PatternUI;
 import com.ftinc.showcase.ui.lock.ui.PinUI;
 
 public enum LockType{
@@ -41,7 +42,12 @@ public enum LockType{
                         .build();
 
             case PATTERN:
-                return null;
+                return new Lockscreen.Builder(ctx, this)
+                        .ui(new PatternUI())
+                        .storage(new SecurePrefStorage(ctx))
+                        .authenticator(new BasicAuth())
+                        .build();
+
             case PASSWORD:
                 return null;
             default:

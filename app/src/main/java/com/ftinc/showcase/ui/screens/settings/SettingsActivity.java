@@ -62,9 +62,12 @@ public class SettingsActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Slidr.attach(this);
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.container, SettingsFragment.createInstance())
-                .commit();
+        Timber.i("Launching Settings Fragment: (%s)", getIntent());
+        if(savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, SettingsFragment.createInstance())
+                    .commit();
+        }
 
     }
 
@@ -86,7 +89,7 @@ public class SettingsActivity extends ActionBarActivity {
     /**
      * The settings fragment
      */
-    public static class SettingsFragment extends PreferenceFragment{
+    public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
         /**
          * Static initializer function to create this new settings
@@ -140,9 +143,11 @@ public class SettingsActivity extends ActionBarActivity {
             version.setSummary(BuildConfig.VERSION_NAME);
 
             // Update the saved video lock method
+            Timber.i("SettingsFragment::onCreate(%s)", savedInstanceState);
             Preference videoLock = getPreferenceManager().findPreference(DataModule.PREF_VIDEO_LOCK);
             LockType mType = LockType.from(mVideoLock.get());
             videoLock.setSummary(mType.getName());
+            videoLock.setOnPreferenceClickListener(this);
 
             // Check for a saved siren alarm audio file
             String sirenFilePath = mAlarmPath.get();
@@ -190,40 +195,6 @@ public class SettingsActivity extends ActionBarActivity {
         @Override
         public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, final Preference preference) {
             switch (preference.getKey()){
-                case "pref_video_lock":
-
-                    String[] lockTypes = getResources().getStringArray(R.array.lock_types);
-                    PostOffice.newSimpleListMail(getActivity(),
-                            "Choose your lock security",
-                            Design.MATERIAL_LIGHT,
-                            lockTypes, new ListStyle.OnItemAcceptedListener<CharSequence>() {
-                                @Override
-                                public void onItemAccepted(CharSequence charSequence, int i) {
-                                    if(i == 0) {
-
-                                        LockType type = LockType.from(i+1);
-
-                                        // Store the selected lock type
-                                        Timber.i("%s: Accepted as lock type, continue to setup.", type.getName());
-                                        preference.setSummary(type.getName());
-                                        mVideoLock.set(i+1);
-
-                                        // Launch Setup activity
-                                        Intent lockSetup = new Intent(getActivity(), LockscreenSetupActivity.class);
-                                        lockSetup.putExtra(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, type.ordinal());
-                                        startActivity(lockSetup);
-
-                                    }else{
-                                        Snackbar.with(getActivity())
-                                                .text("This feature is currently unavailable")
-                                                .swipeToDismiss(true)
-                                                .show(getActivity());
-                                    }
-
-                                }
-                            }).show(getFragmentManager());
-
-                    return true;
                 case "pref_siren_file":
 
                     // Launch intent to pick an audio file to use as the alarm
@@ -349,6 +320,45 @@ public class SettingsActivity extends ActionBarActivity {
 
         }
 
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            switch (preference.getKey()){
+                case "pref_video_lock":
+                    Timber.i("Video Lock Preference Selected! ");
+                    String[] lockTypes = getResources().getStringArray(R.array.lock_types);
+                    PostOffice.newSimpleListMail(getActivity(),
+                            "Choose your lock security",
+                            Design.MATERIAL_LIGHT,
+                            lockTypes, new ListStyle.OnItemAcceptedListener<CharSequence>() {
+                                @Override
+                                public void onItemAccepted(CharSequence charSequence, int i) {
+                                    if(i == 0 || i == 1) {
+
+                                        LockType type = LockType.from(i+1);
+
+                                        // Store the selected lock type
+                                        Timber.i("%s: Accepted as lock type, continue to setup.", type.getName());
+                                        mVideoLock.set(i+1);
+
+                                        // Launch Setup activity
+                                        Intent lockSetup = new Intent(getActivity(), LockscreenSetupActivity.class);
+                                        lockSetup.putExtra(LockscreenSetupActivity.EXTRA_LOCKSCREEN_TYPE, type.ordinal());
+                                        startActivity(lockSetup);
+
+                                    }else{
+                                        Snackbar.with(getActivity())
+                                                .text("This feature is currently unavailable")
+                                                .swipeToDismiss(true)
+                                                .show(getActivity());
+                                    }
+
+                                }
+                            }).show(getFragmentManager());
+
+                    return true;
+            }
+            return false;
+        }
     }
 
 }

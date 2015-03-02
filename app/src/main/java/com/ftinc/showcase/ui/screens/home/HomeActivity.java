@@ -96,6 +96,8 @@ public class HomeActivity extends BaseActivity implements HomeView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Timber.i("WHY THE FUCK IS EVERYTHING DUPLICATED!!!");
+
         // Setup the content for this activity
         setContentView(R.layout.activity_kiosk);
         ButterKnife.inject(this);
@@ -115,6 +117,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
+                Timber.i("onOptionsItemSelected: %s", item);
                 mPresenter.openSettings();
                 return true;
         }

@@ -122,7 +122,7 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
                         .setColorFilter(color, PorterDuff.Mode.SRC_IN);
             }else if(child instanceof ViewGroup){
                 tintTextViews((ViewGroup)child);
-            }else if(child.getTag().equals("inverse")){
+            }else if("inverse".equals(child.getTag())){
                 child.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
             }
         }
