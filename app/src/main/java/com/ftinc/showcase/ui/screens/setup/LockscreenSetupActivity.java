@@ -111,7 +111,7 @@ public class LockscreenSetupActivity extends BaseActivity implements LockscreenS
      * @param parent
      */
     private void tintTextViews(ViewGroup parent){
-        int color = getResources().getColor(R.color.textPrimary);
+        int color = getResources().getColor(R.color.textLockSetup);
         int N = parent.getChildCount();
         for(int i=0; i<N; i++){
             View child = parent.getChildAt(i);

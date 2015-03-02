@@ -17,6 +17,8 @@
         android:divider="@drawable/inset_divider"
         android:paddingTop="8dp"
         android:clipToPadding="false"
+
+        android:footerDividersEnabled="false"
         />
 
     <com.ftinc.showcase.ui.widget.EmptyView

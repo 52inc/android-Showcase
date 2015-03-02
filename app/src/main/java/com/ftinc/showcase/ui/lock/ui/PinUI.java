@@ -91,7 +91,7 @@ public class PinUI extends LockUI {
             @SuppressLint("NewApi")
             @Override
             public void afterTextChanged(Editable s) {
-                int color = getContext().getResources().getColor(isSetup() ? R.color.textPrimary : R.color.white);
+                int color = getContext().getResources().getColor(isSetup() ? R.color.textLockSetup : R.color.white);
 
                 if(s.length() == 4){
                     submitInput(s.toString().getBytes());
@@ -177,7 +177,11 @@ public class PinUI extends LockUI {
 
         int color = getContext().getResources().getColor(isSetup() ? R.color.textPrimary : R.color.white);
         if(mBackspace.getColorFilter() != null){
-            mBackspace.clearColorFilter();
+            if(isSetup()) {
+                mBackspace.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            }else{
+                mBackspace.clearColorFilter();
+            }
             mSeperator.setBackgroundColor(color);
             mPasswordInputField.setTextColor(color);
             ButterKnife.apply(mKeys, NORMAL);
@@ -298,7 +302,7 @@ public class PinUI extends LockUI {
 
         @Override
         public void apply(final TextView view, int index) {
-            final int color = view.getResources().getColor(isSetup() ? R.color.textPrimary : R.color.white);
+            final int color = view.getResources().getColor(isSetup() ? R.color.textLockSetup : R.color.white);
             final int normalColor = view.getCurrentTextColor();
             final int mod = (mKeys.size() - index - 1) % 3;
             view.animate()

@@ -5,7 +5,7 @@
     <string name="no_video_message">No videos found.\nPlease add some.</string>
     <string name="header_about_title">About</string>
     <string name="settings">Settings</string>
-    <string name="pin_lock_title">Please enter your the pin to unlock and exit.</string>
+    <string name="pin_lock_title">Please enter your code.</string>
     <string name="lock_setup_reset_message">Please confirm your code.</string>
     <string name="default_alarm_message">Please plug the device back into it\'s cradle or charger.</string>
     <string name="siren_delete_title">Clear selected siren</string>

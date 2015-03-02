@@ -1,6 +1,7 @@
 package com.ftinc.showcase.ui.lock;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +112,9 @@ public class Lockscreen implements LockUI.UICallbacks {
         View layout = mInflater.inflate(R.layout.layout_lockscreen, parent, false);
         ButterKnife.inject(this, layout);
 
+        // Set background to black80 if not setup
+        if(mState != SETUP) layout.setBackgroundColor(mCtx.getResources().getColor(R.color.black80));
+
         // Inflate Lock UI layout and insert it
         View lockUi = mUi.onCreateView(mInflater, parent);
         mContentFrame.addView(lockUi);
@@ -119,6 +123,7 @@ public class Lockscreen implements LockUI.UICallbacks {
         switch (mState){
             case SETUP:
                 showSetup();
+                mTitle.setGravity(Gravity.CENTER_HORIZONTAL);
                 break;
             case CONFIRM:
                 showConfirmation();

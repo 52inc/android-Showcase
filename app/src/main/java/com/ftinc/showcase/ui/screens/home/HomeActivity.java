@@ -336,7 +336,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
 
                     // Remove all from array of list, then delete the item
                     for(int i=0; i<checked.size(); i++){
-                        mVideos.remove(checked.keyAt(i));
+                        mVideos.remove(checked.valueAt(i));
                     }
                     mAdapter.notifyDataSetChanged();
 

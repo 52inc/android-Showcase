@@ -71,7 +71,7 @@ public class HomePresenterImpl implements HomePresenter {
 
             String text = videos.size() == 1 ?
                     String.format("%s was deleted", videos.valueAt(0).name):
-                    String.format("%d videos deleted");
+                    String.format("%d videos deleted", videos.size());
 
             if(mSnackbar != null){
                 mSnackbar.dismiss();
