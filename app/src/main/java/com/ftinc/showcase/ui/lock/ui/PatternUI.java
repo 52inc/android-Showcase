@@ -5,7 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.eftimoff.patternview.PatternView;
+import com.eftimoff.patternview.cells.Cell;
 import com.ftinc.showcase.R;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -69,12 +72,14 @@ public class PatternUI extends LockUI implements PatternView.OnPatternDetectedLi
 
     @Override
     public void onSuccess() {
+        // TODO: Indicate Success
 
     }
 
     @Override
     public void onFailure() {
-
+        // TODO: Indicate Failure
+        onReset();
     }
 
     @Override
@@ -123,5 +128,17 @@ public class PatternUI extends LockUI implements PatternView.OnPatternDetectedLi
     public void onPatternDetected() {
         Timber.i("onPatternDetected ");
 
+        StringBuilder builder = new StringBuilder();
+
+        // Serialize pattern into string
+        List<Cell> pattern = mPatternView.getPattern();
+        for(Cell cell: pattern){
+            builder.append(cell.getId());
+        }
+
+        // Build input and submit it
+        String input = builder.toString();
+        submitInput(input.getBytes());
     }
+
 }

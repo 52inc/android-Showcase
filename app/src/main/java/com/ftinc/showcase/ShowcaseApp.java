@@ -11,6 +11,7 @@ import com.r0adkll.postoffice.model.Stamp;
 
 import com.ftinc.showcase.utils.CrashlyticsTree;
 import dagger.ObjectGraph;
+import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 import ollie.Ollie;
 import timber.log.Timber;
@@ -36,14 +37,12 @@ public class ShowcaseApp extends Application {
         }
 
         // Initialize PostOffice
-        Stamp stamp = new Stamp.Builder(this)
+        PostOffice.lick(new Stamp.Builder(this)
                 .setCancelable(true)
                 .setCanceledOnTouchOutside(true)
                 .setDesign(Design.MATERIAL_LIGHT)
                 .setThemeColorResource(R.color.accent)
-                .build();
-
-        PostOffice.lick(stamp);
+                .build());
 
         // Intialize Ollie
         Ollie.with(this)
@@ -52,10 +51,12 @@ public class ShowcaseApp extends Application {
              .setLogLevel(BuildConfig.DEBUG ? Ollie.LogLevel.FULL : Ollie.LogLevel.NONE)
              .init();
 
+        // Build and Inject Dagger Object Graph
         buildObjectGraphAndInject();
 
     }
 
+    @DebugLog
     public void buildObjectGraphAndInject(){
         objectGraph = ObjectGraph.create(new Object[]{
             new ShowcaseModule(this)

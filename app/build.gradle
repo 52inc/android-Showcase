@@ -1,4 +1,5 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'io.fabric'
 
 android {
@@ -16,6 +17,9 @@ android {
 
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
+
+        buildConfigField 'String', 'SECURE_KEY', "\"" + KIOSK_SECURE_KEY + "\""
+        buildConfigField 'String', 'SECURE_SALT', "\"" + KIOSK_SECURE_SALT + "\""
     }
 
     compileOptions {
@@ -24,15 +28,7 @@ android {
     }
 
     buildTypes {
-
-        debug{
-            buildConfigField 'String', 'SECURE_KEY', "\"" + KIOSK_SECURE_KEY + "\""
-            buildConfigField 'String', 'SECURE_SALT', "\"" + KIOSK_SECURE_SALT + "\""
-        }
-
         release {
-            buildConfigField 'String', 'SECURE_KEY', "\"" + KIOSK_SECURE_KEY + "\""
-            buildConfigField 'String', 'SECURE_SALT', "\"" + KIOSK_SECURE_SALT + "\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }

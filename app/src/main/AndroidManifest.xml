@@ -2,10 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ftinc.showcase" >
 
+    <!--============================================================================================
+
+        Permissions
+
+    -->
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--============================================================================================
+
+        Application Definition
+
+    -->
 
     <application
         android:name=".ShowcaseApp"
@@ -13,12 +25,19 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Showcase"
+        android:hardwareAccelerated="true"
         >
+
+        <!--============================================================================================
+
+            Activities
+
+        -->
 
         <activity android:name=".ui.screens.home.HomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,7 +54,19 @@
             android:label="@string/lock_screen_label"
             />
 
+        <!--============================================================================================
+
+            Services
+
+        -->
+
         <service android:name=".ui.KioskService" />
+
+        <!--============================================================================================
+
+            Meta-Data
+
+        -->
 
         <meta-data
             android:name="com.crashlytics.ApiKey"
