@@ -12,6 +12,8 @@ Showcase is the perfect tool for demoing your work at tech events and conference
        src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
 </a>
 
+**Recent Build:** - [Showcase-alpha-1.0.2.apk](https://github.com/52inc/android-Showcase/releases/download/alpha-v1.0.2/Showcase-alpha-1.0.2.apk)
+
 ## License
 
 	Copyright 2015 52inc
