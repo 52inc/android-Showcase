@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.ftinc.kit.preferences.BooleanPreference;
+import com.ftinc.kit.preferences.IntPreference;
+import com.ftinc.kit.preferences.SecurePreferences;
+import com.ftinc.kit.preferences.StringPreference;
 import com.ftinc.showcase.BuildConfig;
 import com.ftinc.showcase.ui.lock.LockType;
-import com.r0adkll.deadskunk.preferences.BooleanPreference;
-import com.r0adkll.deadskunk.preferences.IntPreference;
-import com.r0adkll.deadskunk.preferences.StringPreference;
-import com.r0adkll.deadskunk.utils.SecurePreferences;
 
 import javax.inject.Singleton;
 

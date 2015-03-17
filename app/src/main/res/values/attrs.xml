@@ -5,10 +5,4 @@
 
 <resources>
 
-    <declare-styleable name="EmptyView">
-        <attr name="ev_accentColor" format="reference|color" />
-        <attr name="ev_emptyMessage" format="reference|string" />
-        <attr name="ev_emptyIcon" format="reference" />
-    </declare-styleable>
-
 </resources>

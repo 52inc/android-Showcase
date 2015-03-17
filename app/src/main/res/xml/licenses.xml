@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Licenses>
+
+    <Library license="apache">
+        <Name>support-v4, appcompat-v7, cardview-v7</Name>
+        <Author>The Android Open Source Project</Author>
+        <Year>2014</Year>
+        <Url>http://developer.android.com/tools/support-library/index.html</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>52Kit</Name>
+        <Author>52inc</Author>
+        <Year>2015</Year>
+        <Description>A library with common tools for building Android applications</Description>
+        <Url>https://github.com/52inc/android-52Kit</Url>
+        <Email>support@52inc.com</Email>
+    </Library>
+
+    <Library license="apache">
+        <Name>Slidr</Name>
+        <Author>Drew Heavner</Author>
+        <Year>2014</Year>
+        <Url>https://github.com/r0adkll/Slidr</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>PostOffice</Name>
+        <Author>Drew Heavner</Author>
+        <Year>2014</Year>
+        <Url>https://github.com/r0adkll/PostOffice</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>Dagger</Name>
+        <Author>Square, Inc.</Author>
+        <Year>2012</Year>
+        <Url>https://github.com/square/dagger</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>Picasso</Name>
+        <Author>Square, Inc.</Author>
+        <Year>2013</Year>
+        <Url>https://github.com/square/picasso</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>Otto</Name>
+        <Author>Square, Inc.</Author>
+        <Year>2012</Year>
+        <Url>https://github.com/square/otto</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>Timber</Name>
+        <Author>Jake Wharton</Author>
+        <Year>2013</Year>
+        <Url>https://github.com/JakeWharton/timber</Url>
+        <Email>jakewharton@gmail.com</Email>
+    </Library>
+
+    <Library license="apache">
+        <Name>Butterknife</Name>
+        <Author>Jake Wharton</Author>
+        <Year>2013</Year>
+        <Url>https://github.com/JakeWharton/butterknife</Url>
+        <Email>jakewharton@gmail.com</Email>
+    </Library>
+
+    <Library license="mit">
+        <Name>FloatingActionButton</Name>
+        <Author>Oleksandr Melnykov</Author>
+        <Year>2014</Year>
+        <Url>https://github.com/makovkastar/FloatingActionButton/</Url>
+    </Library>
+
+    <Library license="mit">
+        <Name>Snackbar</Name>
+        <Author>William Mora</Author>
+        <Year>2015</Year>
+        <Url>https://github.com/nispok/snackbar</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>StickHeadersRecyclerView</Name>
+        <Author>Jacob Tabak - Timehop</Author>
+        <Year>2014</Year>
+        <Url>https://github.com/timehop/sticky-headers-recyclerview/</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>android-patternview</Name>
+        <Author>Georgi Eftimov</Author>
+        <Year>2015</Year>
+        <Url>https://github.com/geftimov/android-patternview</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>RxJava</Name>
+        <Author>Netflix, Inc.</Author>
+        <Year>2013</Year>
+        <Url>https://github.com/ReactiveX/RxJava/</Url>
+    </Library>
+
+    <Library license="apache">
+        <Name>Ollie</Name>
+        <Author>Michael Pardo</Author>
+        <Year>2014</Year>
+        <Url>https://github.com/pardom/Ollie</Url>
+    </Library>
+
+</Licenses>

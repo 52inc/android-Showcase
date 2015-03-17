@@ -14,7 +14,9 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Html;
 
-import com.r0adkll.deadskunk.utils.Utils;
+import com.ftinc.kit.util.BuildUtils;
+import com.ftinc.kit.util.FileUtils;
+import com.ftinc.kit.util.FormatUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,16 +44,18 @@ public class Tools {
      * @param context The context.
      * @param uri The Uri to query.
      * @author paulburke
+     *
+     * TODO: Test and Finish migrating to 52Kit
      */
     @SuppressLint("NewApi")
     public static String getPath(final Context context, final Uri uri) {
 
-        final boolean isKitKat = Utils.isKitKat();
+        final boolean isKitKat = BuildUtils.isKitKat();
 
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
-            if (Utils.isExternalStorageDocument(uri)) {
+            if (FileUtils.isExternalStorageDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
@@ -63,7 +67,7 @@ public class Tools {
                 // TODO handle non-primary volumes
             }
             // DownloadsProvider
-            else if (Utils.isDownloadsDocument(uri)) {
+            else if (FileUtils.isDownloadsDocument(uri)) {
 
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
@@ -72,7 +76,7 @@ public class Tools {
                 return getDataColumn(context, contentUri, null, null);
             }
             // MediaProvider
-            else if (Utils.isMediaDocument(uri)) {
+            else if (FileUtils.isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
@@ -153,7 +157,7 @@ public class Tools {
         if(cacheFile != null){
 
             // Get the bitmap frame of the video
-            Bitmap thumb = Utils.getVideoThumbnail(videoFileUrl);
+            Bitmap thumb = FileUtils.getVideoThumbnail(videoFileUrl);
             if(thumb != null){
                 int width = thumb.getWidth() / 2;
                 int height = thumb.getHeight() / 2;
@@ -233,10 +237,10 @@ public class Tools {
 
         // Condense Bitrate
         long bits = Long.valueOf(bitRate);
-        String bitRateCondensed = condenseBitRate(bits, Utils.TWO_DIGIT);
+        String bitRateCondensed = condenseBitRate(bits, FormatUtils.Precision.TWO_DIGIT.getFormat());
 
         // Calculate file size
-        String fileSize = Utils.condenseFileSize(videoFile.length(), Utils.TWO_DIGIT);
+        String fileSize = FormatUtils.condenseFileSize(videoFile.length(), FormatUtils.Precision.TWO_DIGIT);
 
         // Get the directory that this resides in
         String path = videoFile.getParent();
@@ -281,7 +285,9 @@ public class Tools {
             return String.format("%d ms", milliseconds);
         }
 
-    }/**
+    }
+
+    /**
      * Condense a file size in bytes into a more proper form
      * of kilobytes, megabytes, gigabytes
      *
@@ -306,20 +312,6 @@ public class Tools {
         else
             return bits + " bits/s";
 
-    }
-
-
-
-    /**
-     * Get the selectableItemBackground attribute drawable
-     * @return
-     */
-    public static Drawable getSelectableItemBackground(Context ctx){
-        int[] attrs = new int[] { R.attr.selectableItemBackground /* index 0 */};
-        TypedArray ta = ctx.obtainStyledAttributes(attrs);
-        Drawable drawableFromTheme = ta.getDrawable(0 /* index */);
-        ta.recycle();
-        return drawableFromTheme;
     }
 
 }

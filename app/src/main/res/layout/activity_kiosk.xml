@@ -21,12 +21,12 @@
         android:footerDividersEnabled="false"
         />
 
-    <com.ftinc.showcase.ui.widget.EmptyView
+    <com.ftinc.kit.widget.EmptyView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:ev_emptyIcon="@mipmap/ic_launcher"
-        app:ev_emptyMessage="@string/no_video_message"
+        app:emptyIcon="@mipmap/ic_launcher"
+        app:emptyMessage="@string/no_video_message"
         />
 
     <com.melnykov.fab.FloatingActionButton

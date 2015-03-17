@@ -1,10 +1,8 @@
 package com.ftinc.showcase.ui.screens.home;
 
-import com.r0adkll.deadskunk.preferences.IntPreference;
-import com.r0adkll.deadskunk.preferences.StringPreference;
-
 import javax.inject.Singleton;
 
+import com.ftinc.kit.preferences.IntPreference;
 import com.ftinc.showcase.ui.UiModule;
 import com.ftinc.showcase.utils.qualifiers.VideoLock;
 import dagger.Module;

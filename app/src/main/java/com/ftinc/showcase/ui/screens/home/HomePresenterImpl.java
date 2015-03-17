@@ -6,10 +6,9 @@ import android.os.AsyncTask;
 import android.util.SparseArray;
 import android.view.WindowManager;
 
+import com.ftinc.kit.preferences.IntPreference;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.listeners.ActionClickListener;
-import com.r0adkll.deadskunk.preferences.IntPreference;
-import com.r0adkll.deadskunk.preferences.StringPreference;
 import com.r0adkll.postoffice.PostOffice;
 
 import java.io.File;

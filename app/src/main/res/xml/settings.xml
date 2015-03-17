@@ -7,16 +7,14 @@
         <CheckBoxPreference
             android:key="pref_video_constraints"
             android:title="@string/pref_video_constraints_title"
-            android:summaryOn="@string/pref_video_constraints_summary_on"
-            android:summaryOff="@string/pref_video_constraints_summary_off"
+            android:summary="@string/pref_video_constraints_summary"
             android:defaultValue="false"
             />
 
         <CheckBoxPreference
             android:key="pref_video_audio"
             android:title="@string/pref_video_audio_title"
-            android:summaryOn="@string/pref_video_audio_summary_on"
-            android:summaryOff="@string/pref_video_audio_summary_off"
+            android:summary="@string/pref_video_audio_summary"
             android:defaultValue="false"
             />
 

@@ -34,13 +34,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ftinc.kit.preferences.BooleanPreference;
+import com.ftinc.kit.preferences.IntPreference;
+import com.ftinc.kit.preferences.SecurePreferences;
+import com.ftinc.kit.preferences.StringPreference;
 import com.ftinc.showcase.ShowcaseApp;
 import com.ftinc.showcase.ui.lock.LockType;
 import com.ftinc.showcase.ui.lock.Lockscreen;
-import com.r0adkll.deadskunk.preferences.BooleanPreference;
-import com.r0adkll.deadskunk.preferences.IntPreference;
-import com.r0adkll.deadskunk.preferences.StringPreference;
-import com.r0adkll.deadskunk.utils.SecurePreferences;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -235,37 +235,25 @@ public class KioskService extends Service implements SurfaceHolder.Callback,
             return;
         }
 
-        // Check video constraints if setting is set
-        if(mVideoConstraints.get()) {
-
-            WindowManager window = (WindowManager) getSystemService(WINDOW_SERVICE);
-            Display display = window.getDefaultDisplay();
-            Point size = new Point();
-            display.getRealSize(size);
-
-            Integer width = size.x;
-            Integer height = size.y;
-            double deviceRatio = width.doubleValue() / height.doubleValue();
-
-            MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
-            metaRetriever.setDataSource(mVideoPath);
-            String vHeight = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
-            String vWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
-            Double vH = Double.valueOf(vHeight);
-            Double vW = Double.valueOf(vWidth);
-            double videoRatio = vW / vH;
-
-            Timber.i("Ratio Check - [%d, %d] = %f - [%f, %f] = %f", width, height, deviceRatio, vW, vH, videoRatio);
-            if(deviceRatio != videoRatio){
-                Toast.makeText(this, "Video does not match the device screen ratio. Check the settings if you wish to override this.", Toast.LENGTH_SHORT).show();
-                stopSelf();
-                return;
-            }
-        }
-
         // Inflate lockscreen Layout
         mLayout = (RelativeLayout) mInflater.inflate(R.layout.service_kiosk, null, false);
         mAlarmView = mInflater.inflate(R.layout.layout_alarm_warning, null, false);
+
+        // Load Video Surface
+        mLockContent = ButterKnife.findById(mLayout, R.id.overlay_content);
+        mSurface  = ButterKnife.findById(mLayout, R.id.video_surface);
+
+        /**
+         * TODO: Replace this functionality with filling the video to the screen
+         */
+        if(mVideoConstraints.get()) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mSurface.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            mSurface.setLayoutParams(params);
+        }
 
         mLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -273,10 +261,6 @@ public class KioskService extends Service implements SurfaceHolder.Callback,
                 return mGesture.onTouchEvent(event);
             }
         });
-
-        // Load Video Surface
-        mLockContent = ButterKnife.findById(mLayout, R.id.overlay_content);
-        mSurface  = ButterKnife.findById(mLayout, R.id.video_surface);
 
         // Setup the container touched event
         mLockContent.setOnTouchedEventListener(new TouchedFrameLayout.OnTouchedEventListener() {

@@ -8,8 +8,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-import com.r0adkll.deadskunk.utils.FileUtils;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +15,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ftinc.kit.util.FileUtils;
 import com.ftinc.showcase.R;
 import timber.log.Timber;
 

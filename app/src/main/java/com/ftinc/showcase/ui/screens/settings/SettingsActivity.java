@@ -1,6 +1,8 @@
 package com.ftinc.showcase.ui.screens.settings;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,23 +12,29 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ftinc.kit.preferences.IntPreference;
+import com.ftinc.kit.preferences.StringPreference;
+import com.ftinc.kit.ui.attributr.Attributr;
+import com.ftinc.kit.util.FileUtils;
+import com.ftinc.kit.util.IntentUtils;
 import com.ftinc.showcase.ShowcaseApp;
 import com.ftinc.showcase.data.DataModule;
 import com.ftinc.showcase.ui.lock.LockType;
 import com.ftinc.showcase.utils.qualifiers.VideoLock;
 import com.nispok.snackbar.Snackbar;
-import com.r0adkll.deadskunk.preferences.IntPreference;
-import com.r0adkll.deadskunk.preferences.StringPreference;
-import com.r0adkll.deadskunk.utils.FileUtils;
-import com.r0adkll.deadskunk.utils.IntentUtils;
 import com.r0adkll.postoffice.PostOffice;
 import com.r0adkll.postoffice.model.Design;
 import com.r0adkll.postoffice.styles.ListStyle;
 import com.r0adkll.slidr.Slidr;
 
 import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,6 +44,8 @@ import com.ftinc.showcase.ui.screens.setup.LockscreenSetupActivity;
 import com.ftinc.showcase.utils.Tools;
 import com.ftinc.showcase.utils.qualifiers.AlarmSoundName;
 import com.ftinc.showcase.utils.qualifiers.AlarmSoundPath;
+
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -142,13 +152,6 @@ public class SettingsActivity extends ActionBarActivity {
             Preference version = getPreferenceManager().findPreference("pref_version");
             version.setSummary(BuildConfig.VERSION_NAME);
 
-            // Update the saved video lock method
-            Timber.i("SettingsFragment::onCreate(%s)", savedInstanceState);
-            Preference videoLock = getPreferenceManager().findPreference(DataModule.PREF_VIDEO_LOCK);
-            LockType mType = LockType.from(mVideoLock.get());
-            videoLock.setSummary(mType.getName());
-            videoLock.setOnPreferenceClickListener(this);
-
             // Check for a saved siren alarm audio file
             String sirenFilePath = mAlarmPath.get();
 
@@ -175,6 +178,17 @@ public class SettingsActivity extends ActionBarActivity {
 
             }
 
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+
+            // Update the saved video lock method
+            Preference videoLock = getPreferenceManager().findPreference(DataModule.PREF_VIDEO_LOCK);
+            LockType mType = LockType.from(mVideoLock.get());
+            videoLock.setSummary(mType.getName());
+            videoLock.setOnPreferenceClickListener(this);
         }
 
         @Override
@@ -237,9 +251,7 @@ public class SettingsActivity extends ActionBarActivity {
 
                     return true;
                 case "pref_licenses":
-                    // FIXME: This is brokekips, need to update the Attributr library to be more
-                    // FIXME: Material Design'e
-                    //Attributr.openLicenseActivity(getActivity(), "3rd Party Licenses", R.raw.example_license_config, R.drawable.ic_launcher, R.style.Theme_Kiosk);
+                    Attributr.openLicenses(getActivity(), R.xml.licenses);
                     return true;
                 case "pref_author":
                     Intent link = IntentUtils.openLink("http://52inc.com");

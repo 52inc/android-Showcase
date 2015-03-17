@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ftinc.kit.preferences.IntPreference;
 import com.ftinc.showcase.ShowcaseApp;
 import com.ftinc.showcase.ui.lock.LockState;
 import com.ftinc.showcase.ui.lock.Lockscreen;
@@ -18,7 +19,6 @@ import com.ftinc.showcase.ui.model.BaseActivity;
 import com.ftinc.showcase.utils.qualifiers.VideoLock;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
-import com.r0adkll.deadskunk.preferences.IntPreference;
 
 import javax.inject.Inject;
 

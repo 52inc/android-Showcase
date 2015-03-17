@@ -33,9 +33,8 @@
     <string name="pref_lock_gesture_title">Lock gesture</string>
     <string name="pref_lock_gesture_summary">Choose the guesture to prompt the video unlock mechanism</string>
     <string name="pref_video_lock_title">Video lock</string>
-    <string name="pref_video_constraints_title">Enforce Video Constraints</string>
-    <string name="pref_video_constraints_summary_on">Only play videos that match the devices aspect ratio</string>
-    <string name="pref_video_constraints_summary_off">Play any videos no matter their ratio</string>
+    <string name="pref_video_constraints_title">Fit video to screen</string>
+    <string name="pref_video_constraints_summary">Enlarge videos that are letterboxed</string>
     <string name="pref_video_audio_title">Video audio</string>
     <string name="pref_video_audio_summary_on">Video audio is enabled during playback</string>
     <string name="pref_video_audio_summary_off">Video audio is disabled during playback</string>
@@ -51,5 +50,6 @@
     <string name="pattern_lock_setup_title">Create a pattern.</string>
     <string name="pattern_lock_confirmation_title">Now confirm your pattern.</string>
     <string name="pattern_lock_failure_title">Please try again.</string>
+    <string name="pref_video_audio_summary">Play video audio during playback</string>
 
 </resources>

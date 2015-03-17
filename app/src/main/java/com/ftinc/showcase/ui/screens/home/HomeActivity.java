@@ -19,11 +19,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ftinc.showcase.ui.screens.settings.SettingsActivity;
+import com.ftinc.kit.preferences.BooleanPreference;
+import com.ftinc.kit.util.UIUtils;
+import com.ftinc.kit.widget.EmptyView;
 import com.melnykov.fab.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
-import com.r0adkll.deadskunk.preferences.BooleanPreference;
 import com.r0adkll.postoffice.PostOffice;
 import com.r0adkll.postoffice.model.Design;
 import com.squareup.otto.Bus;
@@ -43,9 +44,7 @@ import com.ftinc.showcase.R;
 import com.ftinc.showcase.ui.adapters.VideoListAdapter;
 import com.ftinc.showcase.data.model.ImmersiveRecoveryEvent;
 import com.ftinc.showcase.data.model.Video;
-import com.ftinc.showcase.ui.screens.setup.LockscreenSetupActivity;
 import com.ftinc.showcase.ui.model.BaseActivity;
-import com.ftinc.showcase.ui.widget.EmptyView;
 import com.ftinc.showcase.utils.FabEventListener;
 import com.ftinc.showcase.utils.Tools;
 import com.ftinc.showcase.utils.qualifiers.Onboarding;
@@ -307,7 +306,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
             if(checked){
                 view.setBackgroundColor(getResources().getColor(R.color.ripple_material_light));
             }else{
-                view.setBackground(Tools.getSelectableItemBackground(getActivity()));
+                view.setBackground(UIUtils.getSelectableItemBackground(getActivity()));
             }
 
         }
@@ -376,7 +375,7 @@ public class HomeActivity extends BaseActivity implements HomeView {
             int N = mVideoList.getChildCount();
             for(int i=0; i<N; i++){
                 mVideoList.getChildAt(i)
-                        .setBackground(Tools.getSelectableItemBackground(getActivity()));
+                        .setBackground(UIUtils.getSelectableItemBackground(getActivity()));
             }
         }
 
