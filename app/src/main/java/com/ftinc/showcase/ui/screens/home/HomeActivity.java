@@ -3,10 +3,12 @@ package com.ftinc.showcase.ui.screens.home;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -20,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ftinc.kit.preferences.BooleanPreference;
+import com.ftinc.kit.util.BuildUtils;
 import com.ftinc.kit.util.UIUtils;
 import com.ftinc.kit.widget.EmptyView;
 import com.melnykov.fab.FloatingActionButton;
@@ -154,6 +157,24 @@ public class HomeActivity extends BaseActivity implements HomeView {
             }
         }
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onSupportActionModeStarted(android.support.v7.view.ActionMode mode) {
+        super.onSupportActionModeStarted(mode);
+        if(BuildUtils.isLollipop()){
+            getWindow().setStatusBarColor(getResources().getColor(R.color.actionModeDark));
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onSupportActionModeFinished(android.support.v7.view.ActionMode mode) {
+        super.onSupportActionModeFinished(mode);
+        if(BuildUtils.isLollipop()){
+            getWindow().setStatusBarColor(getResources().getColor(R.color.primaryDark));
+        }
     }
 
     /**

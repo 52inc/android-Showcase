@@ -34,4 +34,8 @@
     <color name="lock_success">@color/green_500</color>
     <color name="lock_failure">@color/red_600</color>
 
+    <color name="actionMode">#9b9b9b</color>
+    <color name="actionModeDark">#7c7c7c</color>
+
+
 </resources>
