@@ -16,12 +16,12 @@ import android.app.Activity;
  */
 public interface IBaseView {
 
-    public Activity getActivity();
+    Activity getActivity();
 
-    public void showSnackBar(String text);
+    void showSnackBar(String text);
 
-    public void showLoading();
-    public void hideLoading();
-    public void closeKeyboard();
+    void showLoading();
+    void hideLoading();
+    void closeKeyboard();
 
 }

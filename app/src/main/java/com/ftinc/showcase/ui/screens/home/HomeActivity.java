@@ -421,7 +421,6 @@ public class HomeActivity extends BaseActivity implements HomeView {
             int index = videos.keyAt(i);
             Video value = videos.valueAt(i);
             mVideos.add(index, value);
-            Timber.d("Video[%s] added back at %d", value.name, index);
         }
         mAdapter.notifyDataSetChanged();
     }
