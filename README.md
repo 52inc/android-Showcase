@@ -1,3 +1,5 @@
+# **DEPRECATED** - This project is no longer maintained.
+
 ![icon](ic_launcher_showcase.png)  
 # Showcase
 
